@@ -1,0 +1,26 @@
+body {
+    background: #404040;
+    color: #f8f8f8;
+    font: 500 20px/26px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sidebar {
+    width: 33.3333%;
+  }
+  
+  .map {
+    border-left: 1px solid #fff;
+    position: absolute;
+    left: 33.3333%;
+    width: 66.6666%;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .pad2 {
+    padding: 20px;
+    box-sizing: border-box;
+  }
