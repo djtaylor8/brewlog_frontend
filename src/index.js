@@ -12,13 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
         center: [-118.24335241609123,34.0524555209941],
         zoom: 13
     });
- 
-        // Add the control to the map.
-        map.addControl(
+         map.addControl(
             new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
             mapboxgl: mapboxgl
         })
     );
 
+    const getStarted = document.getElementById('get-started');
+    const loginForm = document.getElementById('login')
+    getStarted.addEventListener('click', (e) => {
+        getStarted.hidden = true;
+        loginForm.hidden = false;
+    })
 });
