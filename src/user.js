@@ -5,7 +5,5 @@ class User {
         this.entries = user.entries;
     }
 
-    // loadEntries(entries, userId) {
-    //     new Entries(entries, userId)
-    // }
+
 }

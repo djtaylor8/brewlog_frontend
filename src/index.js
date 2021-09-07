@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const endPoint = 'http://localhost:3000/api/v1/users/'
-    fetch(endPoint) 
-    .then(res => res.json())
-    .then(json => console.log(json));
    
     mapboxgl.accessToken = 'pk.eyJ1IjoiZGp0YXlsb3IiLCJhIjoiY2t0NmJyNTh3MGd6aTJxbzhzajV5d251OSJ9.i0hGcpcDK2kDXEyK3l2NHA'
     
@@ -36,7 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
             welcome.innerHTML = `<h4>Hi there, ${user.name}</h4>`
             user.entries.forEach(entry => {
                 let brewery = new Entry(entry)
-                welcome.innerHTML += `<ul>${brewery.name}</ul>` 
+                const geocode = brewery.geocodingLocation(); 
+                const displayGeo = async () => {
+                    const assignLoc = await geocode;
+                    for (const { geometry, properties } of assignLoc) {
+                        const el = document.createElement('div');
+                        el.className = 'marker';
+                        el.id = `entry-${brewery.id}`
+                        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+                            `<a href="#">${brewery.name}</a>`
+                        );
+                        new mapboxgl.Marker(el)
+                        .setLngLat(geometry.coordinates)
+                        .setPopup(popup)
+                        .addTo(map);
+                    }
+                };
+                displayGeo();
             })
         })
         loginForm.hidden = true;
