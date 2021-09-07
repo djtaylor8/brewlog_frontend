@@ -25,4 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
         getStarted.hidden = true;
         loginForm.hidden = false;
     })
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const welcome = document.getElementById('welcome')
+        const name = document.getElementById('name').value
+        UserAdapter.fetchUser(name)
+        .then(user => new User(user))
+        .then(user => {
+            welcome.innerHTML = `<h4>Hi there, ${user.name}</h4>`
+            user.entries.forEach(entry => {
+                let brewery = new Entry(entry)
+                welcome.innerHTML += `<ul>${brewery.name}</ul>` 
+            })
+        })
+        loginForm.hidden = true;
+    })
 });
