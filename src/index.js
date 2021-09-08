@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-118.24335241609123,34.0524555209941],
-        zoom: 13
+        zoom: 9
     });
          map.addControl(
             new MapboxGeocoder({
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const welcome = document.getElementById('welcome')
+        const entryContainer = document.getElementById('entry-container')
         const name = document.getElementById('name').value
         UserAdapter.fetchUser(name)
         .then(user => new User(user))
@@ -40,8 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         el.className = 'marker';
                         el.id = `entry-${brewery.id}`
                         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                            `<a href="#">${brewery.name}</a>`
+                            `<a href="#" id="entry-${brewery.id}-link">${brewery.name}</a>`
                         );
+                            el.addEventListener('click', (e) => {
+                            const entryDiv = document.createElement('div')
+                            const btn = document.createElement('button')
+                            btn.innerHTML = 'Back'
+                            btn.onclick = function () {return this.parentNode.remove()}
+                            entryDiv.innerHTML = `${brewery.name}`
+                            const details = document.createElement('p')
+                            details.innerHTML = `${brewery.notes}`
+                            entryDiv.appendChild(details)
+                            entryDiv.appendChild(btn);
+                            entryContainer.appendChild(entryDiv);
+                        })
+
                         new mapboxgl.Marker(el)
                         .setLngLat(geometry.coordinates)
                         .setPopup(popup)
@@ -49,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
                 displayGeo();
-            })
-        })
-        loginForm.hidden = true;
+            });
+        });
+        loginForm.hidden = true;      
     })
 });
