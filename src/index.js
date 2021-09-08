@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getStarted = document.getElementById('get-started');
     const loginForm = document.getElementById('login')
+    
     getStarted.addEventListener('click', (e) => {
         getStarted.hidden = true;
         loginForm.hidden = false;
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(user => new User(user))
         .then(user => {
             welcome.innerHTML = `<h4>Hi there, ${user.name}</h4>`
+
             user.entries.forEach(entry => {
                 let brewery = new Entry(entry)
                 const geocode = brewery.geocodingLocation(); 
@@ -45,14 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         );
                             el.addEventListener('click', (e) => {
                             const entryDiv = document.createElement('div')
-                            const btn = document.createElement('button')
-                            btn.innerHTML = 'Back'
-                            btn.onclick = function () {return this.parentNode.remove()}
+                            const btnBack = document.createElement('button')
+                            btnBack.type = 'button'
+                            btnBack.className = 'btn btn-secondary'
+                            btnBack.innerHTML = 'Back'
+                            btnBack.onclick = function () {return this.parentNode.remove()}
                             entryDiv.innerHTML = `${brewery.name}`
                             const details = document.createElement('p')
-                            details.innerHTML = `${brewery.notes}`
-                            entryDiv.appendChild(details)
-                            entryDiv.appendChild(btn);
+                            // details.innerHTML = `${brewery.notes}`
+                            
+                            // entryDiv.appendChild(details)
+                            entryDiv.appendChild(btnBack);
                             entryContainer.appendChild(entryDiv);
                         })
 
@@ -64,7 +69,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 displayGeo();
             });
+            const newBtn = document.createElement('button')
+            newBtn.type = 'button'
+            newBtn.className = 'btn btn-secondary'
+            newBtn.innerHTML = 'Add new brewery'
+            entryContainer.appendChild(newBtn);
+    
+            newBtn.addEventListener('click', (e) => {
+                const addForm = document.getElementById('new-entry');
+                addForm.hidden = false;
+                newBtn.hidden = true;
+    
+                const input = document.querySelector('.mapboxgl-ctrl-geocoder--input')
+    
+                const hiddenInput = document.createElement('input');
+                const hiddenId = document.createElement('input');
+                hiddenId.id = 'user-id'
+                hiddenId.type = 'hidden'
+                hiddenId.name = 'user-id'
+                hiddenId.value = `${user.userd}`
+                hiddenInput.type = 'hidden'
+                hiddenInput.id = 'details'
+                hiddenInput.name = 'details'
+                hiddenInput.value = `${input.value}`
+                addForm.appendChild(hiddenInput);
+                addForm.appendChild(hiddenId);
+    
+            })
+
         });
-        loginForm.hidden = true;      
+        loginForm.hidden = true;
+
     })
 });
