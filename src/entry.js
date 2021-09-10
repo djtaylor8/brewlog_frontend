@@ -22,7 +22,58 @@ class Entry {
             })
     }
 
-    editForm() {
+    renderEntries() {
+        const entryContainer = document.getElementById('entry-container')
+
+        const entryDiv = document.createElement('div');        
+        entryDiv.id = "entry-details"
+        entryDiv.dataset.id = `${this.id}`
+
+        const btnBack = document.createElement('button')
+        btnBack.type = 'button'
+        btnBack.className = 'btn btn-secondary'
+        btnBack.innerHTML = 'Back'
+        btnBack.onclick = function () {return this.parentNode.remove()}
+        entryDiv.innerHTML = `${this.name}`
+        const details = document.createElement('p')
+        details.innerHTML = `Notes: ${this.notes}`
+        
+        entryDiv.append(details, btnBack)
+        entryContainer.appendChild(entryDiv);
+    }
+
+    static newEntryForm() {
+        const addForm = document.getElementById('new-entry');
+        const newBtn = document.getElementById('add-new-form');
+        const welcome = document.getElementById('welcome')
+        addForm.hidden = false;
+        newBtn.hidden = true;
+
+        const input = document.querySelector('.mapboxgl-ctrl-geocoder--input')
+        
+        const backBtn = document.createElement('button');
+        backBtn.className = 'btn btn-secondary'
+        backBtn.innerHTML = 'Back'
+        backBtn.onclick = function() {return this.parentNode.remove()}
+        
+
+        const hiddenInput = document.createElement('input');
+        const hiddenId = document.createElement('input');
+        hiddenId.id = 'user-id'
+        hiddenId.type = 'hidden'
+        hiddenId.name = 'user-id'
+        hiddenId.value = `${welcome.dataset.id}`
+        hiddenInput.type = 'hidden'
+        hiddenInput.id = 'details'
+        hiddenInput.name = 'details'
+        hiddenInput.value = `${input.value}`
+        
+        addForm.appendChild(backBtn);
+        addForm.appendChild(hiddenInput);
+        addForm.appendChild(hiddenId);
+    }
+
+    editEntry() {
         const entryDiv = document.getElementById("entry-details");
         const editBtn = document.createElement('button')
         editBtn.type = 'button'
@@ -96,14 +147,11 @@ class Entry {
                     displayGeo();
                 };
             });
-
-
-
-            })
         })
+      })
     }
 
-    deleteBrewery() {
+    deleteEntry() {
         const entryContainer = document.getElementById('entry-container')
         const deleteBtn = document.createElement('button')
         deleteBtn.id = 'delete-entry'
