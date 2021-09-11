@@ -21,46 +21,64 @@
 
 <div class="sidebar pad2">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Brew Log</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" id="home" href="#">Home</a>
-            <a class="nav-item nav-link" id="add-brewery" href="#">New</a>
-            <a class="nav-item nav-link" id="edit-brewery" href="#">Edit</a>
-            <a class="nav-item nav-link" id="delete-brewery" href="#">Delete</a>
-          </div>
-        </div>
-      </nav>
+<div class="welcome">Brew Log</div>
 
-<a href="#" id="get-started">Click here to get started</a>
-<form id="login" hidden>
-    <input type="text" name="user-name" id="user-name" placeholder="Name">
-    <button type="submit" class="btn btn-secondary">Submit</button>
-</form>
+<!---Login----->
+<div id="user-login">
+    <a href="#" id="get-started">Click here to get started</a>
+    <form id="login" hidden>
+        <input type="text" name="user-name" id="user-name" placeholder="Name">
+        <button type="submit" class="btn btn-secondary">Submit</button>
+    </form>
+</div>
 
-<div id="welcome"></div>
+<!----Current User-->
+<div id="user"></div>
 
-<div id="entry-container">
+<!---New/Edit Forms----->
+<div id="forms-container">
 
     <form id="new-entry" hidden>
         <textarea name="brewery-notes" id="brewery-notes" placeholder="Add some notes here"></textarea>
         <button type="submit" class="btn btn-secondary ">Submit</button>
     </form>
 
+    <form id="edit-entry" hidden>
+        <label for="name">Brewery:</label>
+        <input type="text" id="name" name="name" value="">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="">
+        <label for="notes">Notes:</label>
+        <input type="text" name="notes" id="notes" value="">
+        <input type="hidden" id="user_id" name="user_id" value="">
+        <button type="submit" class="btn btn-secondary">Submit</button> 
+    </form>
+
 </div>
 
-<div id="nav"></div>
+<!----Entry Details---->
+<div id="entry">
+<div id="entry-details"></div>
+    <div id="entry-options">
+    <button type="button" id="add-new-form" class="btn btn-secondary" hidden>Add New Brewery</button>
+    <button type="button" id="edit-form" class="btn btn-secondary" hidden>Edit</button> 
+    <button type="button" id="delete-entry" class="btn btn-secondary" hidden>Delete</button>
+    </div>
+</div>
+
+<!------Buttons/Navigation---->
+<div id="nav" class="">
+    <button type="button" id="back" class="btn btn-secondary" hidden>Back</button>
+</div>
 
 
 </div>
 
- <div id="map" class="map pad2">Map</div>
+
+<!---Map-->
+<div id="map" class="map pad2">Map</div>
  
-
+<!---Bootstrap-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     //COMMON ELEMENTS
-    const welcome = document.getElementById('welcome')
+    const userDiv = document.getElementById('user')
     const entryContainer = document.getElementById('entry-container')
     const navContainer = document.getElementById('nav')
 
@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
         UserAdapter.fetchUser(name)
         .then(user => new User(user))
         .then(user => {
-            welcome.innerHTML = `<h4>Click on a marker to view details</h4>`
-            welcome.dataset.id = `${user.userId}`
+            userDiv.className = `${user.name}`
+            userDiv.innerHTML = `<p>Click on a marker to view details</p>`
+            userDiv.dataset.id = `${user.userId}`
 
             //LOAD USER ENTRIES ON MAP
             user.entries.forEach(entry => {
@@ -55,35 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
                             `<div>${brewery.name}</div>`
                         );
-                        //DISPLAY BREWERY DETAILS ON MARKER CLICK
-                            el.addEventListener('click', (e) => {
-                            brewery.renderEntries();
-                            brewery.editEntry();
-                            brewery.deleteBrewery();
-                        })
                         new mapboxgl.Marker(el)
                         .setLngLat(geometry.coordinates)
                         .setPopup(popup)
                         .addTo(map);
+
+                      //DISPLAY BREWERY DETAILS ON MARKER CLICK
+                        el.addEventListener('click', (e) => {
+                           brewery.renderEntries();
+                           brewery.clearEntry();
+                        //brewery.editEntry();
+                        //brewery.deleteEntry();
+                        })
                     }
                 };
                 displayGeo();
             });
-
-            //ADD BUTTON TO CREATE NEW BREW ENTRY
-
-            const newBtn = document.createElement('button')
-            newBtn.type = 'button'
-            newBtn.id = 'add-new-form'
-            newBtn.className = 'btn btn-secondary'
-            newBtn.innerHTML = 'Add new brewery'
-            navContainer.appendChild(newBtn);
-    
-            //CREATE NEW BREW ENTRY EVENT LISTENER
-            newBtn.addEventListener('click', (e) => {
-                Entry.newEntryForm();
-            })
-
         });
         loginForm.hidden = true;
 
@@ -100,11 +88,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const newEntryUserId = document.getElementById('user-id').value;
             
             EntryAdapter.createEntry(breweryName, breweryLocation, breweryNotes, newEntryUserId)
-            .then(entry => new Entry(entry))
-            .then(entry => {
-                let brewery = entry; 
-                entryContainer.innerHTML = `<h4>${brewery.name}</h4>`
-                //HOW TO GET USER ENTRIES HERE...
+            .then(render => {
+
+            const userDiv = document.getElementById('user')
+            const userName = userDiv.className
+
+            const markerRemove = document.getElementsByClassName('marker mapboxgl-marker')
+            
+            UserAdapter.fetchUser(userName)
+            .then(user => {
+
+                userDiv.innerHTML = `<h4>Click on a marker to view details</h4>`
+                userDiv.dataset.id = `${user.userId}`
+    
+                //LOAD USER ENTRIES ON MAP
+                user.entries.forEach(entry => {
+                    let brewery = new Entry(entry)
                 const geocode = brewery.geocodingLocation(); 
                 const displayGeo = async () => {
                     const assignLoc = await geocode;
@@ -118,20 +117,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         //DISPLY BREWERY DETAILS ON MARKER CLICK
                             el.addEventListener('click', (e) => {
-                            brewery.renderEntries();
-                            brewery.editEntry();
-                            brewery.deleteEntry();
+                            //brewery.renderEntries();
+                            // brewery.editEntry();
+                            // brewery.deleteEntry();
                         })
-
                         new mapboxgl.Marker(el)
                         .setLngLat(geometry.coordinates)
                         .setPopup(popup)
                         .addTo(map);
                     }
                     displayGeo();
-                };
-            });
+                  };
+              });
             addForm.hidden = true;
+          })
         })
+      })
     })
 });

@@ -23,80 +23,69 @@ class Entry {
     }
 
     renderEntries() {
-        const entryContainer = document.getElementById('entry-container')
+        const editBtn = document.getElementById('edit-form')
+        const deleteBtn = document.getElementById('delete-entry')
+        editBtn.hidden = false;
+        deleteBtn.hidden = false;
 
-        const entryDiv = document.createElement('div');        
-        entryDiv.id = "entry-details"
-        entryDiv.dataset.id = `${this.id}`
+        const entryDetails = document.getElementById('entry-details')
+        entryDetails.dataset.id = `${this.id}`
 
-        const btnBack = document.createElement('button')
-        btnBack.type = 'button'
-        btnBack.className = 'btn btn-secondary'
-        btnBack.innerHTML = 'Back'
-        btnBack.onclick = function () {return this.parentNode.remove()}
-        entryDiv.innerHTML = `${this.name}`
+        const entryName = document.createElement('p')
         const details = document.createElement('p')
+        
+        entryName.innerHTML = `${this.name}`
         details.innerHTML = `Notes: ${this.notes}`
         
-        entryDiv.append(details, btnBack)
-        entryContainer.appendChild(entryDiv);
+        entryDetails.append(entryName, details)
+    }
+
+    clearEntry() {
+        const entryDetails = document.getElementById('entry-details')
+        const closeMarker = document.getElementById(`entry-${this.id}`)
+        const editBtn = document.getElementById('edit-form')
+        const deleteBtn = document.getElementById('delete-entry')
+
+        closeMarker.addEventListener('click', (e) => {
+            console.log('hi')
+            entryDetails.innerHTML = '';
+            editBtn.hidden = true;
+            deleteBtn.hidden = true;
+        })
     }
 
     static newEntryForm() {
         const addForm = document.getElementById('new-entry');
-        const newBtn = document.getElementById('add-new-form');
-        const welcome = document.getElementById('welcome')
+        const currentUser = document.getElementById('user')
         addForm.hidden = false;
-        newBtn.hidden = true;
 
         const input = document.querySelector('.mapboxgl-ctrl-geocoder--input')
         
-        const backBtn = document.createElement('button');
-        backBtn.className = 'btn btn-secondary'
-        backBtn.innerHTML = 'Back'
-        backBtn.onclick = function() {return this.parentNode.remove()}
-        
-
         const hiddenInput = document.createElement('input');
         const hiddenId = document.createElement('input');
         hiddenId.id = 'user-id'
         hiddenId.type = 'hidden'
         hiddenId.name = 'user-id'
-        hiddenId.value = `${welcome.dataset.id}`
+        hiddenId.value = `${currentUser.dataset.id}`
         hiddenInput.type = 'hidden'
         hiddenInput.id = 'details'
         hiddenInput.name = 'details'
         hiddenInput.value = `${input.value}`
         
-        addForm.appendChild(backBtn);
-        addForm.appendChild(hiddenInput);
-        addForm.appendChild(hiddenId);
+        addForm.appendChild(hiddenInput, hiddenId);
     }
 
     editEntry() {
         const entryDiv = document.getElementById("entry-details");
-        const editBtn = document.createElement('button')
-        editBtn.type = 'button'
-        editBtn.className = 'btn btn-secondary'
-        editBtn.innerHTML = 'Edit'
-
-        entryDiv.appendChild(editBtn);
+        const editBtn = document.getElementById("edit-form");
+        const editForm = document.getElementById("edit-entry");
+        editBtn.hidden = false;
 
         editBtn.addEventListener('click', (e) => {
-            const editForm = document.createElement('form');
-            editForm.innerHTML = `
-            <label>Brewery Name:</label>
-            <input type="text" id="name" name="name" value="${this.name}">
-            <label>Location:</label>
-            <input type="text" id="location" name="location" value="${this.location}">
-            <label>Notes:</label>
-            <input type="text" id="notes" name="notes" value="${this.notes}">
-            <input type="hidden" id="user_id" name="user-id" value="${this.userId}">
-            <input id="edit-entry" type="submit" value="submit">`
-
-            entryDiv.appendChild(editForm);
-
-            editForm.addEventListener('submit', (e) => {
+            editForm.hidden = false;
+        })
+            //add values to edit form
+        editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const breweryName = document.getElementById('name').value;
                 const breweryLocation = document.getElementById('location').value;
@@ -125,17 +114,10 @@ class Entry {
                         );
                             el.addEventListener('click', (e) => {
                             const entryDiv = document.createElement('div')
-                            const btnBack = document.createElement('button')
-                            btnBack.type = 'button'
-                            btnBack.className = 'btn btn-secondary'
-                            btnBack.innerHTML = 'Back'
-                            btnBack.onclick = function () {return this.parentNode.remove()}
                             entryDiv.innerHTML = `${brewery.name}`
                             const details = document.createElement('p')
                             // details.innerHTML = `${brewery.notes}`
-                            
                             // entryDiv.appendChild(details)
-                            entryDiv.appendChild(btnBack);
                             entryContainer.appendChild(entryDiv);
                         })
 
@@ -148,33 +130,24 @@ class Entry {
                 };
             });
         })
-      })
     }
 
     deleteEntry() {
         const entryContainer = document.getElementById('entry-container')
-        const deleteBtn = document.createElement('button')
-        deleteBtn.id = 'delete-entry'
-        deleteBtn.innerHTML = 'Delete'
-        deleteBtn.className = 'btn btn-secondary'
-
-        entryContainer.appendChild(deleteBtn);
-
+        //DELETE BUTTON NEEDED
         deleteBtn.addEventListener('click', (e) => {
             const entryId = e.target.previousSibling.dataset.id
-            const entry = Entry.all.find(entry => entry.id == entryId)
+            const entryIndex = Entry.all.findIndex(entry => entry.id == entryId)
 
             EntryAdapter.deleteEntry(entry)
             .then(res => {
                 if (res.status == 'error') {
                     console.log(res.status)
                 } else {
-                    Entry.all.splice(entry.id, 1)
+                    Entry.all.splice(entryIndex, 1)
                     console.log('Success!')
                 }
             })
-           
         })
-
     }
 }
