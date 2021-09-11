@@ -22,6 +22,27 @@ class Entry {
             })
     }
 
+    async displayGeo(map) {
+        const geocode = this.geocodingLocation(); 
+        const assignLoc = await geocode;
+        for (const { geometry, properties } of assignLoc) {
+            const el = document.createElement('div');
+            el.className = 'marker';
+            el.id = `entry-${this.id}`
+            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+                `<div>${this.name}</div>`
+            );
+            new mapboxgl.Marker(el)
+            .setLngLat(geometry.coordinates)
+            .setPopup(popup)
+            .addTo(map);
+
+            el.addEventListener('click', (e) => {
+                this.renderEntries();
+            })
+        }
+    };
+
     renderEntries() {
         const editBtn = document.getElementById('edit-form')
         const deleteBtn = document.getElementById('delete-entry')
@@ -47,61 +68,47 @@ class Entry {
         const deleteBtn = document.getElementById('delete-entry')
 
         closeMarker.addEventListener('click', (e) => {
-            console.log('hi')
             entryDetails.innerHTML = '';
+            entryDetails.dataset.id = '';
             editBtn.hidden = true;
             deleteBtn.hidden = true;
         })
-    }
-
-    static newEntryForm() {
-        const addForm = document.getElementById('new-entry');
-        const currentUser = document.getElementById('user')
-        addForm.hidden = false;
-
-        const input = document.querySelector('.mapboxgl-ctrl-geocoder--input')
-        
-        const hiddenInput = document.createElement('input');
-        const hiddenId = document.createElement('input');
-        hiddenId.id = 'user-id'
-        hiddenId.type = 'hidden'
-        hiddenId.name = 'user-id'
-        hiddenId.value = `${currentUser.dataset.id}`
-        hiddenInput.type = 'hidden'
-        hiddenInput.id = 'details'
-        hiddenInput.name = 'details'
-        hiddenInput.value = `${input.value}`
-        
-        addForm.appendChild(hiddenInput, hiddenId);
     }
 
     editEntry() {
         const entryDiv = document.getElementById("entry-details");
         const editBtn = document.getElementById("edit-form");
         const editForm = document.getElementById("edit-entry");
+        const name = document.getElementById('name');
+        const location = document.getElementById('location');
+        const notes = document.getElementById('notes');
+        const userId = document.getElementById('user_id');
+
         editBtn.hidden = false;
 
         editBtn.addEventListener('click', (e) => {
+            entryDiv.hidden = true;
             editForm.hidden = false;
+            name.setAttribute('value', `${this.name}`);
+            location.setAttribute('value', `${this.location}`); 
+            notes.setAttribute('value', `${this.notes}`); 
+            userId.setAttribute('value', `${this.userId}`); 
         })
             //add values to edit form
         editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const breweryName = document.getElementById('name').value;
-                const breweryLocation = document.getElementById('location').value;
-                const breweryNotes = document.getElementById('notes').value;
-                const breweryUserId = document.getElementById('user_id').value;
+                editForm.hidden = true;
+                const breweryName = name.value;
+                const breweryLocation = location.value;
+                const breweryNotes = notes.value;
+                const breweryUserId = userId.value;
                 const breweryId = entryDiv.dataset.id;
-
-                const entryContainer = document.getElementById('entry-container')
-
 
                 EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, breweryUserId, breweryId)
                 .then(entry => new Entry(entry))
                 .then(entry => {
                 let brewery = entry; 
-                entryContainer.innerHTML = `<h4>${brewery.name}</h4>`
-
+                entryDiv.innerHTML = `<h4>${brewery.name}</h4>`
                 const geocode = brewery.geocodingLocation(); 
                 const displayGeo = async () => {
                     const assignLoc = await geocode;
@@ -113,12 +120,9 @@ class Entry {
                             `<a href="#" id="entry-${brewery.id}-link">${brewery.name}</a>`
                         );
                             el.addEventListener('click', (e) => {
-                            const entryDiv = document.createElement('div')
-                            entryDiv.innerHTML = `${brewery.name}`
-                            const details = document.createElement('p')
-                            // details.innerHTML = `${brewery.notes}`
-                            // entryDiv.appendChild(details)
-                            entryContainer.appendChild(entryDiv);
+                              brewery.renderEntries();
+                              brewery.clearEntry();
+                              brewery.editEntry();
                         })
 
                         new mapboxgl.Marker(el)
