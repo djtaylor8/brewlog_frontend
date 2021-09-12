@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userDiv = document.getElementById('user')
     const entryContainer = document.getElementById('entry-container')
     const navContainer = document.getElementById('nav')
+    const addBtn = document.getElementById('add-new-form');
 
     const getStarted = document.getElementById('get-started');
     const loginForm = document.getElementById('login')
@@ -23,19 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         loginForm.hidden = true;
-        const name = document.getElementById('user-name').value
-        UserAdapter.fetchUser(name)
-        .then(user => new User(user))
-        .then(user => {
-            userDiv.className = `${user.name}`
-            userDiv.innerHTML = `<p>Click on a marker to view details</p>`
-            userDiv.dataset.id = `${user.userId}`
-
-            //LOAD USER ENTRIES ON MAP
-            user.entries.forEach(entry => {
-                let brewery = new Entry(entry)
-                brewery.displayGeo(map);
-            });
-        });
-     })
+        User.setUser(map);
+        Entry.addEntry();
+    })
 });

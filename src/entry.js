@@ -39,6 +39,9 @@ class Entry {
 
             el.addEventListener('click', (e) => {
                 this.renderEntries();
+                this.clearEntry();
+                this.editEntry();
+                this.deleteEntry(this);
             })
         }
     };
@@ -46,10 +49,16 @@ class Entry {
     renderEntries() {
         const editBtn = document.getElementById('edit-form')
         const deleteBtn = document.getElementById('delete-entry')
+        const entry = document.getElementById('entry')
+        const entryOptions = document.getElementById('entry-options')
+        const addBtn = document.getElementById('add-new-btn')
         editBtn.hidden = false;
         deleteBtn.hidden = false;
+        addBtn.hidden = true;
 
-        const entryDetails = document.getElementById('entry-details')
+
+        const entryDetails = document.createElement('div')
+        entryDetails.id = 'entry-details'
         entryDetails.dataset.id = `${this.id}`
 
         const entryName = document.createElement('p')
@@ -59,88 +68,101 @@ class Entry {
         details.innerHTML = `Notes: ${this.notes}`
         
         entryDetails.append(entryName, details)
+        entry.insertBefore(entryDetails, entryOptions);
     }
 
     clearEntry() {
+        const entryDiv = document.getElementById('entry')
         const entryDetails = document.getElementById('entry-details')
         const closeMarker = document.getElementById(`entry-${this.id}`)
         const editBtn = document.getElementById('edit-form')
         const deleteBtn = document.getElementById('delete-entry')
+        const userDiv = document.getElementById('user')
+        let user = User.all.find(user => user.userId == userDiv.dataset.id)
 
         closeMarker.addEventListener('click', (e) => {
-            entryDetails.innerHTML = '';
-            entryDetails.dataset.id = '';
+            entryDetails.hidden = true;
+            // entryDetails.dataset.id = '';
             editBtn.hidden = true;
             deleteBtn.hidden = true;
+            const map = MapAdapter.newMap();
+            user.showAllEntries(map);
+        })
+    }
+
+    static addEntry() {
+        const addBtn = document.getElementById("add-new-btn");
+        const entryOptions = document.getElementById('entry-options')
+        const addForm = document.getElementById("new-entry");
+        const currentUser = document.getElementById('user')
+
+        addBtn.hidden = false;
+
+        addBtn.addEventListener('click', (e) => {
+            entryOptions.hidden = true;
+            addForm.hidden = false;
+        })
+        addForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                addForm.hidden = true;
+                const searchInput = document.querySelector('.mapboxgl-ctrl-geocoder--input').value;
+                const formInputs = searchInput.split(', ');
+
+                const breweryName = formInputs[0];
+                const breweryLocation = formInputs.slice(1).join(', ');
+                const breweryNotes = document.getElementById('brewery-notes').value;
+                const userId = currentUser.dataset.id;
+
+                EntryAdapter.createEntry(breweryName, breweryLocation, breweryNotes, userId)
+                .then(entry => {
+                    console.log(entry);
+            });
         })
     }
 
     editEntry() {
         const entryDiv = document.getElementById("entry-details");
         const editBtn = document.getElementById("edit-form");
+        const entryOptions = document.getElementById('entry-options')
         const editForm = document.getElementById("edit-entry");
         const name = document.getElementById('name');
         const location = document.getElementById('location');
         const notes = document.getElementById('notes');
-        const userId = document.getElementById('user_id');
+        const currentUser = document.getElementById('user')
+
 
         editBtn.hidden = false;
 
         editBtn.addEventListener('click', (e) => {
             entryDiv.hidden = true;
+            entryOptions.hidden = true;
             editForm.hidden = false;
             name.setAttribute('value', `${this.name}`);
             location.setAttribute('value', `${this.location}`); 
             notes.setAttribute('value', `${this.notes}`); 
-            userId.setAttribute('value', `${this.userId}`); 
         })
-            //add values to edit form
         editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 editForm.hidden = true;
                 const breweryName = name.value;
                 const breweryLocation = location.value;
                 const breweryNotes = notes.value;
-                const breweryUserId = userId.value;
+                const userId = currentUser.dataset.id;
                 const breweryId = entryDiv.dataset.id;
 
-                EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, breweryUserId, breweryId)
-                .then(entry => new Entry(entry))
+                EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, userId, breweryId)
                 .then(entry => {
-                let brewery = entry; 
-                entryDiv.innerHTML = `<h4>${brewery.name}</h4>`
-                const geocode = brewery.geocodingLocation(); 
-                const displayGeo = async () => {
-                    const assignLoc = await geocode;
-                    for (const { geometry, properties } of assignLoc) {
-                        const el = document.createElement('div');
-                        el.className = 'marker';
-                        el.id = `entry-${brewery.id}`
-                        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                            `<a href="#" id="entry-${brewery.id}-link">${brewery.name}</a>`
-                        );
-                            el.addEventListener('click', (e) => {
-                              brewery.renderEntries();
-                              brewery.clearEntry();
-                              brewery.editEntry();
-                        })
-
-                        new mapboxgl.Marker(el)
-                        .setLngLat(geometry.coordinates)
-                        .setPopup(popup)
-                        .addTo(map);
-                    }
-                    displayGeo();
-                };
+                    console.log(entry);
             });
         })
     }
 
-    deleteEntry() {
-        const entryContainer = document.getElementById('entry-container')
-        //DELETE BUTTON NEEDED
+    deleteEntry(entry) {
+        const entryDetails = document.getElementById('entry-details')
+        const deleteBtn = document.getElementById('delete-entry');
+
         deleteBtn.addEventListener('click', (e) => {
-            const entryId = e.target.previousSibling.dataset.id
+            const entryId = entryDetails.dataset.id;
             const entryIndex = Entry.all.findIndex(entry => entry.id == entryId)
 
             EntryAdapter.deleteEntry(entry)
