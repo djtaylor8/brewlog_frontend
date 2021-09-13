@@ -39,9 +39,9 @@ class Entry {
 
             el.addEventListener('click', (e) => {
                 this.renderEntries();
-                this.clearEntry();
                 this.editEntry();
                 this.deleteEntry(this);
+                this.clearEntry();
             })
         }
     };
@@ -49,16 +49,20 @@ class Entry {
     renderEntries() {
         const editBtn = document.getElementById('edit-form')
         const deleteBtn = document.getElementById('delete-entry')
+        const backBtn = document.createElement('button');
         const entry = document.getElementById('entry')
+        const entryDetails = document.getElementById('entry-details')
         const entryOptions = document.getElementById('entry-options')
         const addBtn = document.getElementById('add-new-btn')
         editBtn.hidden = false;
         deleteBtn.hidden = false;
         addBtn.hidden = true;
 
+        backBtn.type = 'button'
+        backBtn.id = 'back'
+        backBtn.className = 'btn btn-secondary'
+        backBtn.innerHTML = 'Back'
 
-        const entryDetails = document.createElement('div')
-        entryDetails.id = 'entry-details'
         entryDetails.dataset.id = `${this.id}`
 
         const entryName = document.createElement('p')
@@ -67,36 +71,39 @@ class Entry {
         entryName.innerHTML = `${this.name}`
         details.innerHTML = `Notes: ${this.notes}`
         
-        entryDetails.append(entryName, details)
-        entry.insertBefore(entryDetails, entryOptions);
+        entryDetails.append(entryName, details, backBtn)
     }
 
     clearEntry() {
         const entryDiv = document.getElementById('entry')
         const entryDetails = document.getElementById('entry-details')
-        const closeMarker = document.getElementById(`entry-${this.id}`)
+        const backBtn = document.getElementById('back');
         const editBtn = document.getElementById('edit-form')
         const deleteBtn = document.getElementById('delete-entry')
         const userDiv = document.getElementById('user')
         let user = User.all.find(user => user.userId == userDiv.dataset.id)
 
-        closeMarker.addEventListener('click', (e) => {
-            entryDetails.hidden = true;
-            // entryDetails.dataset.id = '';
+        backBtn.addEventListener('click', (e) => {
+            entryDetails.innerHTML = '';
+            entryDetails.dataset.id = '';
             editBtn.hidden = true;
             deleteBtn.hidden = true;
             const map = MapAdapter.newMap();
-            user.showAllEntries(map);
+            new App(map);
         })
     }
 
     static addEntry() {
         const addBtn = document.getElementById("add-new-btn");
+        const entryDiv = document.getElementById('entry');
         const entryOptions = document.getElementById('entry-options')
         const addForm = document.getElementById("new-entry");
-        const currentUser = document.getElementById('user')
-
-        addBtn.hidden = false;
+        const currentUser = document.getElementById('user');
+        const viewAllBtn = document.createElement('button');
+        viewAllBtn.type = 'button'
+        viewAllBtn.className = 'btn btn-secondary'
+        viewAllBtn.id = 'view-all'
+        viewAllBtn.innerHTML = 'View All Entries'
 
         addBtn.addEventListener('click', (e) => {
             entryOptions.hidden = true;
@@ -115,9 +122,16 @@ class Entry {
 
                 EntryAdapter.createEntry(breweryName, breweryLocation, breweryNotes, userId)
                 .then(entry => {
-                    console.log(entry);
-            });
+                    User.all[0].entries.push(entry);
+                });
+                entryDiv.appendChild(viewAllBtn);
         })
+
+        viewAllBtn.addEventListener('click', (e) => {
+            const map = MapAdapter.newMap();
+            new App(map);
+        })
+
     }
 
     editEntry() {
@@ -153,26 +167,33 @@ class Entry {
                 EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, userId, breweryId)
                 .then(entry => {
                     console.log(entry);
-            });
+                 });
+             const map = MapAdapter.newMap();
+             new App(map); 
         })
     }
 
     deleteEntry(entry) {
-        const entryDetails = document.getElementById('entry-details')
+        const entryDetails = document.getElementById('entry-details');
         const deleteBtn = document.getElementById('delete-entry');
+        const editBtn = document.getElementById('edit-form')
 
         deleteBtn.addEventListener('click', (e) => {
             const entryId = entryDetails.dataset.id;
-            const entryIndex = Entry.all.findIndex(entry => entry.id == entryId)
-
+            const entryIndex = User.all[0].entries.findIndex(entry => entry.id == entryId)
+            entryDetails.innerHTML = '';
+            editBtn.hidden = true;
+            deleteBtn.hidden = true;
             EntryAdapter.deleteEntry(entry)
             .then(res => {
                 if (res.status == 'error') {
                     console.log(res.status)
                 } else {
-                    Entry.all.splice(entryIndex, 1)
+                    User.all[0].entries.splice(entryIndex, 1)
                     console.log('Success!')
                 }
+                const map = MapAdapter.newMap();
+                new App(map);
             })
         })
     }
