@@ -40,5 +40,16 @@ class User {
         })
     }
 
+    showAllEntriesAfterLoad(map) {
+        const entriesSet = new Set(this.entries)
+        this.entries.forEach(entry => {
+            console.log(entry)
+            if (!entriesSet.has(entry)) {
+              let brewery = new Entry(entry)
+              brewery.displayGeo(map);
+            }
+        })
+    }
+
 
 }

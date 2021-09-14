@@ -39,9 +39,9 @@ class Entry {
 
             el.addEventListener('click', (e) => {
                 this.renderEntries();
-                this.editEntry();
-                this.deleteEntry(this);
-                this.clearEntry();
+                this.editEntry(map);
+                this.deleteEntry(this, map);
+                this.clearEntry(map);
             })
         }
     };
@@ -74,7 +74,8 @@ class Entry {
         entryDetails.append(entryName, details, backBtn)
     }
 
-    clearEntry() {
+    clearEntry(map) {
+        const addBtn = document.getElementById('add-new-btn')
         const entryDiv = document.getElementById('entry')
         const entryDetails = document.getElementById('entry-details')
         const backBtn = document.getElementById('back');
@@ -88,33 +89,32 @@ class Entry {
             entryDetails.dataset.id = '';
             editBtn.hidden = true;
             deleteBtn.hidden = true;
-            const map = MapAdapter.newMap();
-            new App(map);
+            addBtn.hidden = false;
+            user.showAllEntriesAfterLoad(map);
+            MapAdapter.centerMap(map);
         })
     }
 
-    static addEntry() {
+    static addEntry(map) {
         const addBtn = document.getElementById("add-new-btn");
         const entryDiv = document.getElementById('entry');
         const entryOptions = document.getElementById('entry-options')
+        const editBtn = document.getElementById('edit-form')
+        const deleteBtn = document.getElementById('delete-entry')
         const addForm = document.getElementById("new-entry");
         const currentUser = document.getElementById('user');
-        const viewAllBtn = document.createElement('button');
-        viewAllBtn.type = 'button'
-        viewAllBtn.className = 'btn btn-secondary'
-        viewAllBtn.id = 'view-all'
-        viewAllBtn.innerHTML = 'View All Entries'
+        const viewAllBtn = document.getElementById('view-all');
 
         addBtn.addEventListener('click', (e) => {
-            entryOptions.hidden = true;
-            addForm.hidden = false;
+        entryOptions.hidden = true;
+        addForm.hidden = false;
         })
+
         addForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 addForm.hidden = true;
-                const searchInput = document.querySelector('.mapboxgl-ctrl-geocoder--input').value;
-                const formInputs = searchInput.split(', ');
-
+                let searchInput = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+                let formInputs = searchInput.value.split(', ');
                 const breweryName = formInputs[0];
                 const breweryLocation = formInputs.slice(1).join(', ');
                 const breweryNotes = document.getElementById('brewery-notes').value;
@@ -122,19 +122,25 @@ class Entry {
 
                 EntryAdapter.createEntry(breweryName, breweryLocation, breweryNotes, userId)
                 .then(entry => {
-                    User.all[0].entries.push(entry);
+                    console.log(entry)
+                    let brewery = new Entry(entry)
+                    brewery.displayGeo(map);
+                    entryOptions.hidden = false;
+                    viewAllBtn.hidden = false;
+                    addBtn.hidden = true;
+                    deleteBtn.hidden = true;
                 });
-                entryDiv.appendChild(viewAllBtn);
         })
 
         viewAllBtn.addEventListener('click', (e) => {
-            const map = MapAdapter.newMap();
-            new App(map);
+            viewAllBtn.hidden = true;
+            addBtn.hidden = false;
+            MapAdapter.centerMap(map)
         })
 
     }
 
-    editEntry() {
+    editEntry(map) {
         const entryDiv = document.getElementById("entry-details");
         const editBtn = document.getElementById("edit-form");
         const entryOptions = document.getElementById('entry-options')
@@ -158,42 +164,47 @@ class Entry {
         editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 editForm.hidden = true;
+                editForm.innerHTML = ''
                 const breweryName = name.value;
                 const breweryLocation = location.value;
                 const breweryNotes = notes.value;
                 const userId = currentUser.dataset.id;
                 const breweryId = entryDiv.dataset.id;
+                entryDiv.hidden = false;
+                entryOptions.hidden = false;
+                entryDiv.innerHTML = '';
 
                 EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, userId, breweryId)
                 .then(entry => {
                     console.log(entry);
+                    const entryIndex = User.all[0].entries.findIndex(entry => entry.id == breweryId)
+                    User.all[0].entries.splice(entryIndex, 1, entry)
                  });
-             const map = MapAdapter.newMap();
-             new App(map); 
         })
     }
 
-    deleteEntry(entry) {
+    deleteEntry(entry, map) {
         const entryDetails = document.getElementById('entry-details');
         const deleteBtn = document.getElementById('delete-entry');
         const editBtn = document.getElementById('edit-form')
+        const entryMarker = document.getElementById(`entry-${this.id}`)
 
         deleteBtn.addEventListener('click', (e) => {
             const entryId = entryDetails.dataset.id;
             const entryIndex = User.all[0].entries.findIndex(entry => entry.id == entryId)
             entryDetails.innerHTML = '';
+            entryMarker.remove();
             editBtn.hidden = true;
             deleteBtn.hidden = true;
             EntryAdapter.deleteEntry(entry)
-            .then(res => {
-                if (res.status == 'error') {
-                    console.log(res.status)
-                } else {
-                    User.all[0].entries.splice(entryIndex, 1)
-                    console.log('Success!')
-                }
-                const map = MapAdapter.newMap();
-                new App(map);
+            .then(entries => {
+                console.log(entries)
+                User.all[0].entries.splice(entryIndex, 1)
+                Entry.all = [];
+                entries.forEach(entry => {
+                    let brewery = new Entry(entry)
+                    brewery.displayGeo(map);
+                })
             })
         })
     }

@@ -17,4 +17,9 @@ class MapAdapter {
         );
         return map;
     }
+
+    static centerMap(map) {
+        map.setCentercenter = ([-118.24335241609123,34.0524555209941]);
+        map.setZoom(9);
+    }
 }

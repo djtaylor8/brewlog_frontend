@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         loginForm.hidden = true;
-        User.setUser(map);
-        Entry.addEntry();
+        new App(map);
     })
 });
