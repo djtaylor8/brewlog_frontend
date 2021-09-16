@@ -37,7 +37,7 @@ class Entry {
 
             el.addEventListener('click', (e) => {
                 this.renderEntries();
-                this.clearEntry(map);
+                // this.clearEntry(map);
             })
         }
     };
@@ -66,51 +66,25 @@ class Entry {
         </div>
       </div>      
         `
-
-        // const editBtn = document.getElementById('edit-form')
-        // const deleteBtn = document.getElementById('delete-entry')
-        // const backBtn = document.createElement('button');
-        // const entry = document.getElementById('entry')
-        // const entryDetails = document.getElementById('entry-details')
-        // const entryOptions = document.getElementById('entry-options')
-        // const addBtn = document.getElementById('add-new-btn')
-        // editBtn.hidden = false;
-        // deleteBtn.hidden = false;
-        // addBtn.hidden = true;
-
-        // backBtn.type = 'button'
-        // backBtn.id = 'back'
-        // backBtn.className = 'btn btn-secondary'
-        // backBtn.innerHTML = 'Back'
-
-        // entryDetails.dataset.id = `${this.id}`
-
-        // const entryName = document.createElement('p')
-        // const details = document.createElement('p')
-        
-        // entryName.innerHTML = `${this.name}`
-        // details.innerHTML = `Notes: ${this.notes}`
-
-        // entryDetails.dataset.id = `${this.id}`
-        // entryDetails.append(entryName, details, backBtn)
-    }
-
-    clearEntry(map) {
-        const addBtn = document.getElementById('add-new-btn')
-        const entryDiv = document.getElementById('entry')
-        const entryDetails = document.getElementById('entry-details')
-        const backBtn = document.getElementById('back');
-        const editBtn = document.getElementById('edit-form')
-        const deleteBtn = document.getElementById('delete-entry')
-        const userDiv = document.getElementById('user')
-
-        backBtn.addEventListener('click', (e) => {
-            entryDetails.innerHTML = '';
-            entryDetails.dataset.id = '';
-            editBtn.hidden = true;
-            deleteBtn.hidden = true;
-            addBtn.hidden = false;
-            MapAdapter.centerMap(map);
+        const editButton = document.getElementById('editButton')
+        editButton.addEventListener('click', (e) => {
+            this.renderEditForm();
         })
     }
+
+    renderEditForm() {
+        const editForm = document.getElementById("edit-entry");
+        const name = document.getElementById('name');
+        const location = document.getElementById('location');
+        const notes = document.getElementById('notes');
+        const entryId = document.getElementById('entry-id');
+        editForm.hidden = false;
+
+        name.setAttribute('value', `${this.name}`)
+        location.setAttribute('value', `${this.location}`)
+        notes.setAttribute('value', `${this.notes}`)
+        entryId.setAttribute('value', `${this.id}`)
+    }
+
+
 }

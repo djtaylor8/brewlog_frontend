@@ -77,17 +77,8 @@ class App {
         const name = document.getElementById('name');
         const location = document.getElementById('location');
         const notes = document.getElementById('notes');
+        const entryId = document.getElementById('entry-id');
         editBtn.hidden = true;
-
-        editBtn.addEventListener('click', (e) => {
-            let entryEdit = App.setEntry();
-            entryDiv.hidden = true;
-            entryOptions.hidden = true;
-            editForm.hidden = false;
-            name.setAttribute('value', `${entryEdit.name}`);
-            location.setAttribute('value', `${entryEdit.location}`); 
-            notes.setAttribute('value', `${entryEdit.notes}`); 
-        })
 
         editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -96,7 +87,7 @@ class App {
                 const breweryName = name.value;
                 const breweryLocation = location.value;
                 const breweryNotes = notes.value;
-                let breweryId = entryDiv.dataset.id;
+                const breweryId = entryId.value;
                 entryDiv.hidden = true;
                 entryOptions.hidden = false;
                 deleteBtn.hidden = true
