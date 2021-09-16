@@ -24,7 +24,6 @@ class User {
         })
         .then(user => {
             userDiv.className = `${user.name}`
-            userDiv.innerHTML = `<p>Click on a marker to view details</p>`
             userDiv.dataset.id = `${user.userId}`
 
             user.showAllEntries(map);
