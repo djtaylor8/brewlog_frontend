@@ -60,7 +60,7 @@ class Entry {
             </div>
             <div class="modal-footer">
               <button type="button" id="editButton" class="btn btn-secondary" data-dismiss="modal">Edit</button>
-              <button type="button" id="deleteButton" class="btn btn-primary">Delete</button>
+              <button type="button" id="deleteButton" class="btn btn-primary" data-dismiss="modal">Delete</button>
             </div>
           </div>
         </div>
@@ -69,6 +69,13 @@ class Entry {
         const editButton = document.getElementById('editButton')
         editButton.addEventListener('click', (e) => {
             this.renderEditForm();
+        })
+
+        const deleteButton = document.getElementById('deleteButton')
+        deleteButton.addEventListener('click', (e) => {
+            let entryMarker = document.getElementById(`entry-${this.id}`)
+            entryMarker.remove();
+            App.deleteEntry(this);
         })
     }
 
@@ -85,6 +92,4 @@ class Entry {
         notes.setAttribute('value', `${this.notes}`)
         entryId.setAttribute('value', `${this.id}`)
     }
-
-
 }

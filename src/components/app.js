@@ -5,7 +5,7 @@ class App {
         User.setUser(map)
         App.addEntry(map)
         App.editEntry(map)
-        App.deleteEntry(map)
+        // App.deleteEntry(map)
     }
 
     static viewAll(map) {
@@ -106,29 +106,14 @@ class App {
         })
     }
 
-   static deleteEntry(map) {
-        const addBtn = document.getElementById("add-new-btn");
-        const entryDetails = document.getElementById('entry-details');
-        const deleteBtn = document.getElementById('delete-entry');
-        const editBtn = document.getElementById('edit-form')
-
-        deleteBtn.addEventListener('click', (e) => {
-            let entryDelete = App.setEntry();
-            let entryMarker = document.getElementById(`entry-${entryDelete.id}`)
-            entryMarker.remove();
-            const entryId = entryDelete.id;
-            entryDetails.innerHTML = '';
-            editBtn.hidden = true;
-            deleteBtn.hidden = true;
-            let entryIndex = Entry.all.findIndex(entry => entry.id == entryId)
+   static deleteEntry(entry) {
+            let entryIndex = Entry.all.findIndex(entries => entries.id == entry.id)
             Entry.all.splice(entryIndex, 1)
 
-            EntryAdapter.deleteEntry(entryDelete)
+            EntryAdapter.deleteEntry(entry)
             .then(res => {
                 console.log(res)
             })
-            .then(App.viewAll(map))
-        });
     }
 
 }
