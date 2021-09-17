@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <script src="src/index.js" charset="utf-8"></script>
     <script src="src/components/entry.js" charset="utf-8"></script>
@@ -32,11 +31,12 @@
 
 <!---Login----->
 <div id="user-login">
-    <a href="#" id="get-started">Click here to get started</a>
+    <a href="#" id="get-started">Sign in</a>
     <form id="login" hidden>
-        <input type="text" name="user-name" id="user-name" placeholder="Name">
+        <input type="text" name="user-name" id="user-name" placeholder="Name" required>
         <br>
-        <button type="submit" class="btn btn-secondary">Sign In</button>
+        <br>
+        <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
 </div>
 
@@ -47,9 +47,10 @@
 <div id="forms-container">
 
     <form id="new-entry" hidden>
-        <input type="text" name="brewery-notes" id="brewery-notes" placeholder="Add some notes here">
+        <input type="text" name="brewery-notes" id="brewery-notes" placeholder="Add some notes here...">
         <br>
-        <button type="submit" class="btn btn-secondary ">Submit</button>
+        <br>
+        <button type="submit" class="btn btn-secondary ">Save</button>
     </form>
 
     <form id="edit-entry" hidden>
@@ -60,6 +61,7 @@
         <input type="text" name="notes" id="notes">
         <br>
         <input type="text" id="entry-id" hidden>
+        <br>
         <button type="submit" class="btn btn-secondary">Save</button> 
     </form>
 
@@ -71,8 +73,6 @@
 <div id="entry-options">
     <button type="button" id="view-all" class="btn btn-secondary" hidden>View All Entries</button>
     <button type="button" id="add-new-btn" class="btn btn-secondary" hidden>Add New Brewery</button>
-    <button type="button" id="edit-form" class="btn btn-secondary" hidden>Edit</button> 
-    <button type="button" id="delete-entry" class="btn btn-secondary" hidden>Delete</button>
 </div>
 </div>
 
@@ -95,7 +95,11 @@
 <!---Map-->
 <div id="map" class="map pad2"></div>
 
- 
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
 <!---Bootstrap-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

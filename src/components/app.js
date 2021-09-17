@@ -24,8 +24,6 @@ class App {
         const addBtn = document.getElementById("add-new-btn");
         const entryDiv = document.getElementById('entry');
         const entryOptions = document.getElementById('entry-options')
-        const editBtn = document.getElementById('edit-form')
-        const deleteBtn = document.getElementById('delete-entry')
         const addForm = document.getElementById("new-entry");
         const currentUser = document.getElementById('user');
 
@@ -53,7 +51,6 @@ class App {
                     breweryNotes.value = '';
                     entryOptions.hidden = false;
                     addBtn.hidden = true;
-                    deleteBtn.hidden = true;
                 });
                 App.viewAll(map)
         })
@@ -62,15 +59,12 @@ class App {
     static editEntry(map) {
         const addBtn = document.getElementById("add-new-btn");
         let entryDiv = document.getElementById("entry-details");
-        const editBtn = document.getElementById("edit-form");
         const entryOptions = document.getElementById('entry-options')
         const editForm = document.getElementById("edit-entry");
-        const deleteBtn = document.getElementById('delete-entry');
         const name = document.getElementById('name');
         const location = document.getElementById('location');
         const notes = document.getElementById('notes');
         const entryId = document.getElementById('entry-id');
-        editBtn.hidden = true;
 
         editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -82,8 +76,6 @@ class App {
                 const breweryId = entryId.value;
                 entryDiv.hidden = true;
                 entryOptions.hidden = false;
-                deleteBtn.hidden = true
-                editBtn.hidden = true;
                 let entryIndex = Entry.all.findIndex(entry => entry.id == breweryId)
                 Entry.all.splice(entryIndex, 1)
                 entryDiv.innerHTML = '';
