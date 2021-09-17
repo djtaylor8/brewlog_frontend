@@ -68,6 +68,8 @@ class Entry {
         `
         const editButton = document.getElementById('editButton')
         editButton.addEventListener('click', (e) => {
+            const addBtn = document.getElementById("add-new-btn");
+            addBtn.hidden = true;
             this.renderEditForm();
         })
 

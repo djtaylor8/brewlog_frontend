@@ -10,21 +10,25 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <title>Brew Log</title>
 </head>
 <body>
     
-<div class="sidebar pad2">
+<div class="sidebar">
 
 
-<div class="welcome">Brew Log</div>
+<div class="welcome"><h1>Brew Log</h1></div>
 
 <!---Login----->
 <div id="user-login">
     <a href="#" id="get-started">Click here to get started</a>
     <form id="login" hidden>
         <input type="text" name="user-name" id="user-name" placeholder="Name">
-        <button type="submit" class="btn btn-secondary">Submit</button>
+        <br>
+        <button type="submit" class="btn btn-secondary">Sign In</button>
     </form>
 </div>
 
@@ -35,19 +39,20 @@
 <div id="forms-container">
 
     <form id="new-entry" hidden>
-        <textarea name="brewery-notes" id="brewery-notes" placeholder="Add some notes here"></textarea>
+        <input type="text" name="brewery-notes" id="brewery-notes" placeholder="Add some notes here">
+        <br>
         <button type="submit" class="btn btn-secondary ">Submit</button>
     </form>
 
     <form id="edit-entry" hidden>
-        <label for="name">Brewery:</label>
         <input type="text" id="name" name="name">
-        <label for="location">Location:</label>
+        <br>
         <input type="text" id="location" name="location">
-        <label for="notes">Notes:</label>
+        <br>
         <input type="text" name="notes" id="notes">
+        <br>
         <input type="text" id="entry-id" hidden>
-        <button type="submit" class="btn btn-secondary">Submit</button> 
+        <button type="submit" class="btn btn-secondary">Save</button> 
     </form>
 
 </div>
@@ -70,12 +75,18 @@
 
 <div id="entry-modal"></div>
 
-
+<nav class="navbar fixed-bottom navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="https://fontmeme.com/permalink/210917/da1525d2fa715d3310d631f0c1623d08.png" alt="lobster-font"  width="30" height="30" class="d-inline-block align-top" alt="">
+    </a>
+    <a href="" class="nav-item nav-link mr-auto">About</a>
+  </nav>
 </div>
 
 
 <!---Map-->
-<div id="map" class="map pad2">Map</div>
+<div id="map" class="map pad2"></div>
+
  
 <!---Bootstrap-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

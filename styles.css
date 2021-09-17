@@ -8,8 +8,28 @@ body {
   }
 
   .sidebar {
+    position: absolute;
+    background-image: url(https://images.unsplash.com/photo-1571767454098-246b94fbcf70?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aG9wc3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=60);
+    background-size: cover;
     width: 33.3333%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+    text-align: center;
+    }
+
+  .welcome {
+    font-family: 'Lobster', cursive;
+    text-align: center;
+    margin-top: 40px;
   }
+
+  #get-started {
+    color: white;
+  }
+    
   
   #map {
     border-left: 1px solid #fff;
@@ -19,11 +39,7 @@ body {
     top: 0;
     bottom: 0;
   }
-  
-  .pad2 {
-    padding: 20px;
-    box-sizing: border-box;
-  }
+
 
   .mapboxgl-popup {
     max-width: 200px;
@@ -42,6 +58,26 @@ body {
   .modal {
     color: black;
   }
+
+  input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    border-color: #fff;
+    color: white;
+    outline: none;
+}
+
+::placeholder {
+  color: white;
+  opacity: 0.75;
+}
+
+.nav-item {
+  font-family: 'Lobster', cursive;
+  color: white;
+}
+  
 
   
     

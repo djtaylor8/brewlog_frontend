@@ -5,7 +5,6 @@ class App {
         User.setUser(map)
         App.addEntry(map)
         App.editEntry(map)
-        // App.deleteEntry(map)
     }
 
     static viewAll(map) {
@@ -19,13 +18,6 @@ class App {
             addBtn.hidden = false;
             MapAdapter.centerMap(map)
         }) 
-    }
-
-    static setEntry() {
-        const entryDetails = document.getElementById("entry-details");
-        const entryId = entryDetails.dataset.id;
-       let entry = Entry.all.find(entry => entry.id == entryId)
-       return entry;
     }
 
     static addEntry(map) {
@@ -95,6 +87,7 @@ class App {
                 let entryIndex = Entry.all.findIndex(entry => entry.id == breweryId)
                 Entry.all.splice(entryIndex, 1)
                 entryDiv.innerHTML = '';
+                addBtn.hidden = false;
 
                 EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, currentUser, breweryId)
                 .then(entry => {
@@ -102,7 +95,6 @@ class App {
                     let brewery = new Entry(entry)
                     brewery.displayGeo(map)
                  })
-                 .then(App.viewAll(map));
         })
     }
 
