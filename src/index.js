@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getStarted = document.getElementById('get-started');
     const loginForm = document.getElementById('login')
-    
+
+    //About modal/refresh on logo
+    new Navigation();
     
     //BEGIN USER FLOW WITH CLICK EVENT ON LINK
     getStarted.addEventListener('click', (e) => {

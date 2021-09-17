@@ -13,6 +13,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <script src="src/index.js" charset="utf-8"></script>
+    <script src="src/components/entry.js" charset="utf-8"></script>
+    <script src="src/adapters/entryAdapter.js" charset="utf-8"></script>
+    <script src="src/components/user.js" charset="utf-8"></script>
+    <script src="src/adapters/userAdapter.js" charset="utf-8"></script>
+    <script src="src/adapters/mapAdapter.js" charset="utf-8"></script>
+    <script src="src/components/app.js" charset="utf-8"></script>
+    <script src="src/components/navigation.js" charset="utf-8"></script>
     <title>Brew Log</title>
 </head>
 <body>
@@ -76,10 +84,10 @@
 <div id="entry-modal"></div>
 
 <nav class="navbar fixed-bottom navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="#" id="refresh">
       <img src="https://fontmeme.com/permalink/210917/da1525d2fa715d3310d631f0c1623d08.png" alt="lobster-font"  width="30" height="30" class="d-inline-block align-top" alt="">
     </a>
-    <a href="" class="nav-item nav-link mr-auto">About</a>
+    <a href="" class="nav-item nav-link mr-auto" id="about" data-target="#aboutModal" data-toggle="modal">About</a>
   </nav>
 </div>
 
@@ -92,13 +100,5 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<script src="src/index.js" charset="utf-8"></script>
-<script src="src/components/entry.js" charset="utf-8"></script>
-<script src="src/adapters/entryAdapter.js" charset="utf-8"></script>
-<script src="src/components/user.js" charset="utf-8"></script>
-<script src="src/adapters/userAdapter.js" charset="utf-8"></script>
-<script src="src/adapters/mapAdapter.js" charset="utf-8"></script>
-<script src="src/components/app.js" charset="utf-8"></script>
 </body>
 </html>
