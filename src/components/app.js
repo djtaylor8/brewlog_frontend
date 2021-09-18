@@ -8,13 +8,11 @@ class App {
     }
 
     static viewAll(map) {
-        let entryDiv = document.getElementById("entry-details");
         const viewAllBtn = document.getElementById('view-all');
         const addBtn = document.getElementById("add-new-btn");
         viewAllBtn.hidden = false;
         viewAllBtn.addEventListener('click', (e) => {
             viewAllBtn.hidden = true;
-            entryDiv.hidden = false;
             addBtn.hidden = false;
             MapAdapter.centerMap(map)
         }) 
@@ -22,7 +20,6 @@ class App {
 
     static addEntry(map) {
         const addBtn = document.getElementById("add-new-btn");
-        const entryDiv = document.getElementById('entry');
         const entryOptions = document.getElementById('entry-options')
         const addForm = document.getElementById("new-entry");
         const currentUser = document.getElementById('user');
@@ -58,7 +55,6 @@ class App {
 
     static editEntry(map) {
         const addBtn = document.getElementById("add-new-btn");
-        let entryDiv = document.getElementById("entry-details");
         const entryOptions = document.getElementById('entry-options')
         const editForm = document.getElementById("edit-entry");
         const name = document.getElementById('name');
@@ -74,11 +70,9 @@ class App {
                 const breweryLocation = location.value;
                 const breweryNotes = notes.value;
                 const breweryId = entryId.value;
-                entryDiv.hidden = true;
                 entryOptions.hidden = false;
                 let entryIndex = Entry.all.findIndex(entry => entry.id == breweryId)
                 Entry.all.splice(entryIndex, 1)
-                entryDiv.innerHTML = '';
                 addBtn.hidden = false;
 
                 EntryAdapter.editEntry(breweryName, breweryLocation, breweryNotes, currentUser, breweryId)

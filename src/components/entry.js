@@ -37,7 +37,6 @@ class Entry {
 
             el.addEventListener('click', (e) => {
                 this.renderEntries();
-                // this.clearEntry(map);
             })
         }
     };
