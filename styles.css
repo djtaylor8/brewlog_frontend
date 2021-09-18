@@ -41,11 +41,6 @@ body {
     bottom: 0;
   }
 
-  .mapboxgl-popup {
-    max-width: 200px;
-    color: #404040;
-    }
-
  .marker {
       background-image: url('icons8-bar-40.png');
       background-size: cover;
@@ -82,8 +77,3 @@ body {
 .mapboxgl-ctrl-geocoder--input::placeholder {
   color: black !important;
 }
-
-  
-
-  
-    

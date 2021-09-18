@@ -5,6 +5,7 @@ class App {
         User.setUser(map)
         App.addEntry(map)
         App.editEntry(map)
+        App.viewAll(map)
     }
 
     static viewAll(map) {
@@ -12,7 +13,6 @@ class App {
         const addBtn = document.getElementById("add-new-btn");
         viewAllBtn.hidden = false;
         viewAllBtn.addEventListener('click', (e) => {
-            viewAllBtn.hidden = true;
             addBtn.hidden = false;
             MapAdapter.centerMap(map)
         }) 
