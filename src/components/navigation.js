@@ -25,8 +25,7 @@ class Navigation {
               </button>
             </div>
             <div class="modal-body">
-              Sign in using your name and start adding your favorite breweries. To create a new entry, simply search for the location using the map and then click <button type="button" class="btn btn-secondary">Add New Brewery</button>
-              . See all of the beer glasses pop up as you taste your way through beers around the world!
+              Sign in using your name and start adding your favorite breweries. To create a new entry, simply search for the location using the map and then click <button type="button" class="btn btn-secondary">Add New Brewery</button>.
             </div>
             <div class="modal-footer">
               <button type="button" id="deleteButton" class="btn btn-primary" data-dismiss="modal">Close</button>

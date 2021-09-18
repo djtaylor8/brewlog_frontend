@@ -91,7 +91,7 @@ class Entry {
 
         name.setAttribute('value', `${this.name}`)
         location.setAttribute('value', `${this.location}`)
-        notes.setAttribute('value', `${this.notes}`)
+        notes.value = `${this.notes}`
         entryId.setAttribute('value', `${this.id}`)
     }
 }
