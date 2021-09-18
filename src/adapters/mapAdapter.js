@@ -6,22 +6,22 @@ class MapAdapter {
         let map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-118.24335241609123,34.0524555209941],
-            zoom: 9
+            center: [-95.7129,37.0902],
+            zoom: 2
         });
              map.addControl(
                 new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl
-            })
+            }), 
         );
         return map;
     }
 
     static centerMap(map) {
         map.flyTo({
-            center: [-118.24335241609123,34.0524555209941],
-            zoom: 9
+            center: [-95.7129,37.0902],
+            zoom: 2
         })
     }
 }
