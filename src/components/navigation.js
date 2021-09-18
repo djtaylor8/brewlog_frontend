@@ -1,4 +1,5 @@
 class Navigation {
+  
     constructor() {
         this.initBindingsAndListeners()
         this.renderAboutModal()
