@@ -7,7 +7,7 @@ class MapAdapter {
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [-95.7129,37.0902],
-            zoom: 2
+            zoom: 3
         });
              map.addControl(
                 new MapboxGeocoder({
@@ -21,7 +21,7 @@ class MapAdapter {
     static centerMap(map) {
         map.flyTo({
             center: [-95.7129,37.0902],
-            zoom: 2
+            zoom: 3
         })
     }
 }
