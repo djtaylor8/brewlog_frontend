@@ -42,7 +42,7 @@ body {
   }
 
  .marker {
-      background-image: url('icons8-bar-40.png');
+      background-image: url('images/icons8-bar-40.png');
       background-size: cover;
       width: 20px;
       height: 20px;
