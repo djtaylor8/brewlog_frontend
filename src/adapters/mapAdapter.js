@@ -19,7 +19,9 @@ class MapAdapter {
     }
 
     static centerMap(map) {
-        map.setCentercenter = ([-118.24335241609123,34.0524555209941]);
-        map.setZoom(9);
+        map.flyTo({
+            center: [-118.24335241609123,34.0524555209941],
+            zoom: 9
+        })
     }
 }

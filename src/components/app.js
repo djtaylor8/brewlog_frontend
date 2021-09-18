@@ -81,6 +81,7 @@ class App {
                     let brewery = new Entry(entry)
                     brewery.displayGeo(map)
                  })
+                 App.viewAll(map)
         })
     }
 
@@ -93,5 +94,4 @@ class App {
                 console.log(res)
             })
     }
-
 }

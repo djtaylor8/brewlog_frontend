@@ -31,17 +31,21 @@ class Entry {
             el.dataset.target = '#entryModal'
             el.dataset.toggle = 'modal'
 
-            new mapboxgl.Marker(el)
+            let coordinates = new mapboxgl.Marker(el)
             .setLngLat(geometry.coordinates)
             .addTo(map);
 
             el.addEventListener('click', (e) => {
-                this.renderEntries();
+                this.renderEntries(map);
+                map.flyTo({
+                    center: [coordinates._lngLat.lng, coordinates._lngLat.lat],
+                    zoom: 12
+                })
             })
         }
     };
 
-    renderEntries() {
+    renderEntries(map) {
         const modal = document.getElementById('entry-modal')
         modal.innerHTML = 
         `
@@ -78,6 +82,8 @@ class Entry {
             entryMarker.remove();
             App.deleteEntry(this);
         })
+        App.viewAll(map);
+
     }
 
     renderEditForm() {
@@ -86,6 +92,8 @@ class Entry {
         const location = document.getElementById('location');
         const notes = document.getElementById('notes');
         const entryId = document.getElementById('entry-id');
+        const viewAllBtn = document.getElementById('view-all');
+        viewAllBtn.hidden = true;
         editForm.hidden = false;
 
         name.setAttribute('value', `${this.name}`)
